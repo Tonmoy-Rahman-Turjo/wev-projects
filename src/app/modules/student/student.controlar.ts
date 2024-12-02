@@ -1,24 +1,18 @@
-import { Request, Response } from 'express';
+import { NextFunction, Request, Response } from 'express';
 import { send } from 'process';
 import { StudentServices } from './Student.service';
+import { error } from 'console';
+ import Joi from 'joi'
+// import studentVaidationSchema from './student.joi.validation';
 
-const createStudent = async (req: Request, res: Response) => {
-  try {
-    const { student: studentData } = req.body;
-    const result = await StudentServices.creatStucentIntoDB(studentData);
-    //well calle service funcation to send data
+import { z } from "zod";
+import studentValidationSchema from './student.validation';
+// import { Student } from '../Student.modal';
+import { MongoServerError } from 'mongodb';
 
-    //response
-    res.status(200).json({
-      success: true,
-      message: 'Student Creat Successfuly',
-      data: result,
-    });
-  } catch (error) {
-    console.log(error);
-  }
-};
-const getAllStudent = async (req: Request, res: Response) => {
+
+
+const getAllStudent = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const result = await StudentServices.getallStudentFormDB();
     res.status(200).json({
@@ -26,25 +20,39 @@ const getAllStudent = async (req: Request, res: Response) => {
       message: 'Student is  retrieved Successfuly',
       data: result,
     });
-  } catch (error) {
-    console.log(error);
+  } catch (err) {
+    next(err)
   }
 };
-const getsingleStudent = async (req: Request, res: Response) => {
+const getsingleStudent = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const { stundetId } = req.params;
-    const result = await StudentServices.getsingleStudentFormDB(stundetId);
+    const { studentId } = req.params;
+    const result = await StudentServices.getsingleStudentFormDB(studentId);
     res.status(200).json({
       success: true,
       message: 'single Student is  retrieved Successfuly',
       data: result,
     });
-  } catch (error) {
-    console.log(error);
+  } catch (err) {
+    next(err)
+  }
+};
+const getsingleStudentDeletd = async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const { studentId } = req.params;
+    const result = await StudentServices.getsingleStudentDeletedFormDB(studentId);
+    res.status(200).json({
+      success: true,
+      message: 'single Student deleted Successfuly',
+      data: result,
+    });
+  } catch (err) {
+    next()
   }
 };
 export const StudentControlar = {
-  createStudent,
+  // createStudent,
   getAllStudent,
   getsingleStudent,
+  getsingleStudentDeletd
 };

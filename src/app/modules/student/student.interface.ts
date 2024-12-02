@@ -1,39 +1,61 @@
-import { Schema, model, connect } from 'mongoose';
-export type Gauardian = {
-  fatherName: string;
-  montherName: string;
-  fotheroccopation: string;
-  fatherCon: string;
-  motherocc: string;
-  motherP: string;
-};
 
-export type userName = {
-  fristName: string;
-  midelName: string;
+import { Model, Types } from 'mongoose';
+
+export type TUserName = {
+  firstName: string;
+  middleName: string;
   lastName: string;
 };
-export type localguardian = {
-  name: string;
-  occopation: string;
-  contract: string;
-  addredd: string;
-};
-export type Student = {
-  id: string;
-  name: userName;
-  gender: 'male' | 'female';
-  detOfBath?: string;
-  contractNumber: string;
-  emergencyCon: string;
-  bloodGroup?: 'O+' | '-O' | 'A+' | 'AB';
-  presentAddres: string;
-  parmanentAddress: string;
 
-  gauardian: Gauardian;
-  email: string;
-  avatar?: string;
-  localGurdian: localguardian;
-  profileImg?: string;
-  isActive: 'active' | 'blocked';
+export type TGuardian = {
+  fatherName: string;
+  fatherOccupation: string;
+  fatherContactNo: string;
+  motherName: string;
+  motherOccupation: string;
+  motherContactNo: string;
 };
+
+export type TLocalGuardian = {
+  name: string;
+  occupation: string;
+  contactNo: string;
+  address: string;
+};
+
+export type TStudent = {
+  id: string;
+ 
+  password:string;
+  user: Types.ObjectId;
+  name: TUserName;
+  gender: 'male' | 'female' | 'other';
+  dateOfBirth: string;
+  email: string;
+  contactNo: string;
+  emergencyContactNo: string;
+  bloogGroup: 'A+' | 'A-' | 'B+' | 'B-' | 'AB+' | 'AB-' | 'O+' | 'O-';
+  presentAddress: string;
+  permanentAddress: string;
+  guardian: TGuardian;
+  localGuardian: TLocalGuardian;
+  profileImg: string;
+  admissionSemester: Types.ObjectId;
+  academicDepartment: Types.ObjectId;
+  academicFaculty: Types.ObjectId;
+  isDeleted: boolean;
+};
+ //for crating static
+
+
+  export interface StudentModel extends Model<TStudent> {
+   isUserExists(id: string): Promise <TStudent | null>
+}
+
+
+  /// for creating instance
+
+// export type StudentMathords = {
+//   isUserExists(id: string): Promise<TStudent | null>;
+// };
+// export type StudentModel = Model< TStudent, Record<string, never>,StudentMathords>;

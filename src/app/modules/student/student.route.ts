@@ -6,6 +6,7 @@ const router = express.Router();
 router.get('/', StudentControlar.getAllStudent);
 /// single  stundet data gate
 router.get('/:studentId', StudentControlar.getsingleStudent);
+router.delete('/:studentId', StudentControlar.getsingleStudentDeletd);
 //welll calle controlar
-router.post('/creat-student', StudentControlar.createStudent);
+// router.post('/creat-student', StudentControlar.createStudent);
 export const StudentRoutes = router;
