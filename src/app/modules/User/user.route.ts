@@ -1,8 +1,11 @@
+import express from 'express';
+import { userControlar } from './user.controlar';
 
-import express from 'express'
-import { userControlar } from './user.controlar'
-const router = express.Router()
+import { createStudentValidationSchema } from '../student/student.validation';
+import validatorRequest from '../../middlwares/validate.request';
 
-router.post('/create-student', userControlar.createStudnet)
+const router = express.Router();
 
-export const UserRoute = router
+router.post('/create-student', validatorRequest(createStudentValidationSchema),  userControlar.createStudnet);
+
+export const UserRoute = router;

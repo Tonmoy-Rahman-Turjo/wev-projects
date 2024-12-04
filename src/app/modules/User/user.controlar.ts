@@ -1,26 +1,23 @@
-import { NextFunction, Request, Response } from "express";
-import { userServices } from "./user.services";
-import { any, date } from "joi";
-import { error } from "console";
+import { NextFunction, Request, RequestHandler, Response } from 'express';
+import { userServices } from './user.services';
 
+import sendResponse from '../../utils/send.response';
+import httpStatus from 'http-status';
+import catchAsyn from '../../utils/catchAsync';
 
+const createStudnet = catchAsyn(async (req, res) => {
+  const { password, student: stundetData } = req.body;
+  // console.log(password)
+  const result = await userServices.creatuserFormDB(password, stundetData);
 
-const createStudnet = async(req: Request, res: Response, next:  NextFunction)=>{
-    try{
-    const {password, student: stundetData} = req.body
-    // console.log(password)
-    const result = await userServices.creatuserFormDB(password, stundetData)
-     res.status(200).json({
-        success: true,
-       message: 'creat a user successfuly',
-       data: result
-     })
-   
-    } catch(err){
-      next(err)
-    }
-}
+  sendResponse(res, {
+    success: true,
+    stautsCode: httpStatus.OK,
+    message: 'creat a user successfuly',
+    data: result,
+  });
+});
 
- export const userControlar ={
-    createStudnet
-}
+export const userControlar = {
+  createStudnet,
+};

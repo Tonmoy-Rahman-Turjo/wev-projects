@@ -1,6 +1,5 @@
 var validator = require('validator');
 
-import bcrypt from 'bcrypt';
 import { Schema, model } from 'mongoose';
 import {
   StudentModel,
@@ -9,7 +8,6 @@ import {
   TStudent,
   TUserName,
 } from './student.interface';
-import config from '../../config';
 
 // User Name Schema
 const userNameSchema = new Schema<TUserName>({
@@ -25,7 +23,6 @@ const userNameSchema = new Schema<TUserName>({
         return false;
       }
       return true;
-     
     },
   },
   middleName: {
@@ -92,9 +89,16 @@ const localgurdianSchema = new Schema<TLocalGuardian>({
 // Student Schema
 const studentSchema = new Schema<TStudent, StudentModel>(
   {
-    id: { type: String, required: true, unique: true },
-    user:{
-      type: Schema.Types.ObjectId, required: [true , 'user id is requried'], unique:true, ref:'User'
+    id: {
+      type: String,
+      required: [true, 'ID is required'],
+      unique: true,
+    },
+    user: {
+      type: Schema.Types.ObjectId,
+      required: [true, 'user id is requried'],
+      unique: true,
+      ref: 'User',
     },
     name: {
       type: userNameSchema,
@@ -114,7 +118,8 @@ const studentSchema = new Schema<TStudent, StudentModel>(
     },
     email: {
       type: String,
-      required: true,
+      required: [true, 'Email is required'],
+      unique: true,
     },
     contactNo: {
       type: String,
@@ -152,7 +157,10 @@ const studentSchema = new Schema<TStudent, StudentModel>(
       type: Boolean,
       default: false,
     },
-  
+    admissionSemester:{
+      type: Schema.ObjectId,
+      ref: 'AcademicSemester'
+    }
   },
   {
     toJSON: {
@@ -161,14 +169,11 @@ const studentSchema = new Schema<TStudent, StudentModel>(
   },
 );
 
-
 ///// vartual
 studentSchema.virtual('fullName').get(function () {
   return `${this.name.firstName} ${this.name.middleName} ${this.name.lastName}`;
   //  return this.name.firstName + this.name.middleName + this.name.lastName
 });
-
-
 
 //// queary medelwar
 

@@ -11,8 +11,9 @@ const userNameValidationSchema = Joi.object({
         value.charAt(0).toUpperCase() + value.slice(1).toLowerCase();
       if (value !== formattedStr) {
         return helpers.message({
-            custom: 'First name must start with an uppercase letter followed by lowercase letters',
-          }); // Cor
+          custom:
+            'First name must start with an uppercase letter followed by lowercase letters',
+        }); // Cor
       }
       return value;
     }),
@@ -47,12 +48,9 @@ const localGuardianValidationSchema = Joi.object({
 const studentVaidationSchema = Joi.object({
   id: Joi.string().required(),
   name: userNameValidationSchema.required(),
-  gender: Joi.string()
-    .valid('male', 'female', 'other')
-    .required()
-    .messages({
-      'any.only': 'Gender must be one of male, female, or other',
-    }),
+  gender: Joi.string().valid('male', 'female', 'other').required().messages({
+    'any.only': 'Gender must be one of male, female, or other',
+  }),
   detOfBath: Joi.date().optional(),
   email: Joi.string().email().required(),
   contractNumber: Joi.string().required(),
@@ -69,4 +67,4 @@ const studentVaidationSchema = Joi.object({
     .required(),
 });
 
-export default  studentVaidationSchema;
+export default studentVaidationSchema;

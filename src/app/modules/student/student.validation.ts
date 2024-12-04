@@ -1,5 +1,3 @@
-
-
 import { z } from 'zod';
 
 const createUserNameValidationSchema = z.object({
@@ -30,15 +28,15 @@ const createLocalGuardianValidationSchema = z.object({
   address: z.string(),
 });
 
-export const studentValidationSchema =  z.object({
+export const createStudentValidationSchema = z.object({
+  body:z.object({
       
-    
-    student: z.object({
       password: z.string().max(20).optional(),
-      id: z.string(),
+     student:z.object({
+        
       name: createUserNameValidationSchema,
       gender: z.enum(['male', 'female', 'other']),
-      dateOfBirth: z.string(),
+      dateOfBirth: z.string().optional(),
       email: z.string().email(),
       contactNo: z.string(),
       emergencyContactNo: z.string(),
@@ -47,13 +45,13 @@ export const studentValidationSchema =  z.object({
       permanentAddress: z.string(),
       guardian: createGuardianValidationSchema,
       localGuardian: createLocalGuardianValidationSchema,
-      profileImg:z.string(),
+      profileImg: z.string(),
       admissionSemester: z.string(),
       academicDepartment: z.string(),
-      isDeleted: z.boolean()
    
-  }),
-});
+     })
+    }),
+  })
 
 
-export default studentValidationSchema;
+export const studentValidations ={ createStudentValidationSchema}

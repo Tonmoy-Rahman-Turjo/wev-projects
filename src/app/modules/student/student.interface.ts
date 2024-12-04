@@ -1,4 +1,3 @@
-
 import { Model, Types } from 'mongoose';
 
 export type TUserName = {
@@ -25,8 +24,8 @@ export type TLocalGuardian = {
 
 export type TStudent = {
   id: string;
- 
-  password:string;
+
+  password: string;
   user: Types.ObjectId;
   name: TUserName;
   gender: 'male' | 'female' | 'other';
@@ -45,15 +44,13 @@ export type TStudent = {
   academicFaculty: Types.ObjectId;
   isDeleted: boolean;
 };
- //for crating static
+//for crating static
 
-
-  export interface StudentModel extends Model<TStudent> {
-   isUserExists(id: string): Promise <TStudent | null>
+export interface StudentModel extends Model<TStudent> {
+  isUserExists(id: string): Promise<TStudent | null>;
 }
 
-
-  /// for creating instance
+/// for creating instance
 
 // export type StudentMathords = {
 //   isUserExists(id: string): Promise<TStudent | null>;

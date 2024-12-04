@@ -1,58 +1,50 @@
-import { NextFunction, Request, Response } from 'express';
+import { NextFunction, Request, RequestHandler, Response } from 'express';
 import { send } from 'process';
 import { StudentServices } from './Student.service';
 import { error } from 'console';
- import Joi from 'joi'
+import Joi from 'joi';
 // import studentVaidationSchema from './student.joi.validation';
 
-import { z } from "zod";
-import studentValidationSchema from './student.validation';
+import { z } from 'zod';
+// import studentValidationSchema from './student.validation';
 // import { Student } from '../Student.modal';
 import { MongoServerError } from 'mongodb';
+import sendResponse from '../../utils/send.response';
+import httpStatus from 'http-status';
+import catchAsyn from '../../utils/catchAsync';
 
-
-
-const getAllStudent = async (req: Request, res: Response, next: NextFunction) => {
-  try {
-    const result = await StudentServices.getallStudentFormDB();
-    res.status(200).json({
-      success: true,
-      message: 'Student is  retrieved Successfuly',
-      data: result,
-    });
-  } catch (err) {
-    next(err)
-  }
-};
-const getsingleStudent = async (req: Request, res: Response, next: NextFunction) => {
-  try {
-    const { studentId } = req.params;
-    const result = await StudentServices.getsingleStudentFormDB(studentId);
-    res.status(200).json({
-      success: true,
-      message: 'single Student is  retrieved Successfuly',
-      data: result,
-    });
-  } catch (err) {
-    next(err)
-  }
-};
-const getsingleStudentDeletd = async (req: Request, res: Response, next: NextFunction) => {
-  try {
-    const { studentId } = req.params;
-    const result = await StudentServices.getsingleStudentDeletedFormDB(studentId);
-    res.status(200).json({
-      success: true,
-      message: 'single Student deleted Successfuly',
-      data: result,
-    });
-  } catch (err) {
-    next()
-  }
-};
+const getAllStudent = catchAsyn(async (req, res) => {
+  const result = await StudentServices.getallStudentFormDB();
+  sendResponse(res, {
+    success: true,
+    stautsCode: httpStatus.OK,
+    message: 'get all student successfuly',
+    data: result,
+  });
+});
+const getsingleStudent = catchAsyn(async (req, res) => {
+  const { studentId } = req.params;
+  const result = await StudentServices.getsingleStudentFormDB(studentId);
+  sendResponse(res, {
+    success: true,
+    stautsCode: httpStatus.OK,
+    message: 'get single successfuly',
+    data: result,
+  });
+});
+const getsingleStudentDeletd = catchAsyn(async (req, res) => {
+  const { studentId } = req.params;
+  const result = await StudentServices.getsingleStudentDeletedFormDB(studentId);
+  sendResponse(res, {
+    success: true,
+    stautsCode: httpStatus.OK,
+    message: 'get single student deletd successfuly',
+    data: result,
+  });
+});
 export const StudentControlar = {
   // createStudent,
   getAllStudent,
   getsingleStudent,
-  getsingleStudentDeletd
+  getsingleStudentDeletd,
 };

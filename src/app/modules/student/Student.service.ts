@@ -1,7 +1,6 @@
 import { error } from 'console';
 import { Student } from './Student.modal';
 import { TStudent } from './student.interface';
-import { Aggregate } from 'mongoose';
 
 const creatStucentIntoDB = async (studentData: TStudent) => {
   if (await Student.isUserExists(studentData.id)) {
