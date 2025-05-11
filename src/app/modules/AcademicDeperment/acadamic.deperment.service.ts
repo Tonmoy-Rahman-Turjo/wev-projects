@@ -1,4 +1,5 @@
 
+import { AcademicFaculty } from "../AcademicFaculty/AcademicFaculty.model"
 import { TAcademicDeperment } from "./Academic.deperment.interface"
 import { AcademicDepartment } from "./academic.deperment.model"
 
@@ -14,13 +15,17 @@ const createAcademicDepermentDB = async(palylode: TAcademicDeperment)=>{
   
 }
 const getAllAcademicDepartmentsFromDB = async () => {
-    const result = await AcademicDepartment.find().populate('academicFaculty');
+    // const result = await AcademicDepartment.find().populate('academicFaculty');
+    const result = await AcademicDepartment.find().populate('academicFaculty')
+    // const result = await AcademicDepartment.find()
+    // console.log(result)
     return result;
   };
   
   const getSingleAcademicDepartmentFromDB = async (id: string) => {
     const result =
-      await AcademicDepartment.findById(id).populate('academicFaculty');
+      // await AcademicDepartment.findById(id).populate('academicFaculty');
+      await AcademicDepartment.findById(id)
     return result;
   };
   
