@@ -1,7 +1,7 @@
 
 import z from 'zod'
 import { TAcadamicSemesterCode, TAcadamicSemesterNmae, TMonths } from './acadamicSemesre.interface'
-import { months } from './acadamicSemester.constent'
+import { accademicSemesterNameCodeMaper, months } from './acadamicSemester.constent'
 
 
 const acadamicSemesterName : TAcadamicSemesterNmae[] = ['Autumn', 'Summar', 'Fall' ]
@@ -16,7 +16,16 @@ const  createAcademicSemsesterSchema = z.object({
      })
 })
 
-
+const updateAcademicSemesterValidationSchema = z.object({
+    body: z.object({
+      name: z.enum([...acadamicSemesterName] as [string, ...string[]]).optional(),
+      year: z.string().optional(),
+      code: z.enum([...acadamicSemesterCode] as [string, ...string[]]).optional(),
+      startMonth: z.enum([...months] as [string, ...string[]]).optional(),
+      endMonth: z.enum([...months] as [string, ...string[]]).optional(),
+    }),
+  });
 export const AcadamicSemesterValidation = {
-    createAcademicSemsesterSchema
+    createAcademicSemsesterSchema,
+    updateAcademicSemesterValidationSchema
 }
